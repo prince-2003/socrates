@@ -44,7 +44,7 @@ export default function HomePage() {
         </li>
         
         <li className="w-full md:w-auto">
-          <Link href="/evaluate" passHref>
+          <Link href="/problems" passHref>
             <Button className="w-full hover:scale-105 transition-transform">
               Solve Problems
             </Button>

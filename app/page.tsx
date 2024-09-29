@@ -36,7 +36,7 @@ export default function HomePage() {
         </li>
         
         <li className="w-full md:w-auto">
-          <Link href="/submit-problem" passHref>
+          <Link href="/submit-problems" passHref>
             <Button className="w-full hover:scale-105 transition-transform">
               Submit a New Problem
             </Button>

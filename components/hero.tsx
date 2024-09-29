@@ -32,8 +32,7 @@ export default function Hero() {
   useEffect(() => {
     const smMediaQuery = window.matchMedia("(max-width: 768px)");
     const innerWidth = window.innerWidth;
-    const moonWidth = innerWidth;
-    setMoonWidth( moonWidth);
+    setMoonWidth(innerWidth);
     const handleMouseMove = (e: MouseEvent) => {
       const gallery = galleryRef.current;
       if (!gallery) return;
@@ -161,7 +160,7 @@ export default function Hero() {
             <Image
               src={item.src}
               alt={item.alt}
-
+              layout="fixed"
               width={25}
               height={25}
             />

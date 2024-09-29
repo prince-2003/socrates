@@ -29,8 +29,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200`}
       >
-        <div className="min-h-screen flex flex-col items-center">
-          <main className="flex-grow">{children}</main>
+        <div className="min-h-screen flex flex-col items-center justify-center">
+          {children}
         </div>
       </body>
     </html>

@@ -1,39 +1,56 @@
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import Link from 'next/link';
+import Link from "next/link";
 import ButtonPrimary from "./ui/button1";
 
 export default function Header() {
-    const linksRef = useRef<HTMLUListElement>(null);
+  const navLinksRef = useRef<HTMLDivElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [nav, setNav] = useState(false);
 
   const handleNav = () => {
     setNav(!nav);
   };
   const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#technologies", label: "Technologies" },
-    { href: "#products", label: "Products" },
-    { href: "#discover", label: "Discover" },
-    { href: "#team", label: "Team" },
+    { href: "#features", label: "Features" },
     { href: "#pricing", label: "Pricings" },
-    { href: "#premium", label: "Buy Premium" },
+    { href: "#review", label: "Reviews" },
+    { href: "#team", label: "Team" },
   ];
   useEffect(() => {
-
-    if (linksRef.current) {
+    if (navLinksRef.current) {
+        const grandChildren = navLinksRef.current.querySelectorAll('div > *');
+        gsap.fromTo(
+          grandChildren,
+          { opacity: 0, x: -20 },
+          { opacity: 1, x: 0, duration: 1, stagger: 0.1, ease: "power3.out" }
+        );
+      }
+      
+    if (buttonsRef.current) {
       gsap.fromTo(
-        linksRef.current.children,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: 'power3.out' }
+        buttonsRef.current.children,
+        { opacity: 0, x: 50 },
+        { opacity: 1, x: 0, duration: 1, stagger: 0.1, ease: "power3.out" }
+      );
+    }
+    if (mobileMenuRef.current) {
+      gsap.fromTo(
+        mobileMenuRef.current.children,
+        { opacity: 0, x: 50 },
+        { opacity: 1, x: 0, duration: 1, stagger: 0.1, ease: "power3.out" }
       );
     }
   }, []);
 
   return (
     <>
-      <nav ref={linksRef} className=" flex bg-white w-[96vw] m-2 rounded-xl sticky top-0 z-10 py-4 justify-between bg-opacity-75 backdrop-filter backdrop-blur-lg px-4  items-center md:gap-2 lg:gap-8 ">
-        <div className="flex justify-center items-center gap-20 text-black">
+      <nav className=" flex bg-white w-[96vw] m-2 rounded-xl sticky top-0 z-10 py-4 justify-between bg-opacity-75 backdrop-filter backdrop-blur-lg px-4  items-center md:gap-2 lg:gap-8 ">
+        <div
+          ref={navLinksRef}
+          className="flex justify-center items-center gap-20 text-black"
+        >
           <div className="flex items-center gap-0">
             <svg
               className="w-8 md:w-6 md:h-6 lg:w-10 lg:h-10"
@@ -67,15 +84,20 @@ export default function Header() {
           </div>
         </div>
 
-        <div className=" hidden md:flex gap-2">
-        <Link href={{ pathname: '/auth', query: { view: 'login' } }} passHref>
-          <ButtonPrimary innerHtml="Login" />
+        <div ref={buttonsRef} className=" hidden md:flex gap-2">
+          <Link href={{ pathname: "/auth", query: { view: "login" } }} passHref>
+            <ButtonPrimary innerHtml="Login" />
           </Link>
-          <Link href={{ pathname: '/auth', query: { view: 'signup' } }} passHref>
-          <ButtonPrimary innerHtml="Sign Up" bgColor="black" /></Link>
+          <Link
+            href={{ pathname: "/auth", query: { view: "signup" } }}
+            passHref
+          >
+            <ButtonPrimary innerHtml="Sign Up" bgColor="black" />
+          </Link>
         </div>
 
         <div
+          ref={mobileMenuRef}
           onClick={handleNav}
           className="block md:hidden cursor-pointer text-black"
         >

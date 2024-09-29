@@ -1,6 +1,6 @@
 interface ButtonPrimaryProps {
     innerHtml: string;
-    bgColor?: 'black' | 'transparent';
+    bgColor?: 'black' | 'white' | 'transparent';
   }
   
   function ButtonPrimary({ innerHtml, bgColor = 'transparent' }: ButtonPrimaryProps) {

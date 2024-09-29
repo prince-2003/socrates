@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button"
 import { gsap } from 'gsap';
 import Header from '@/components/header';
 
+
 export default function HomePage() {
   const linksRef = useRef<HTMLUListElement>(null); 
 
+  
   useEffect(() => {
     gsap.to("#heading", { opacity: 1, y: 20, duration: 1, ease: "power3.out" });
     if (linksRef.current) {

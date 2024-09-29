@@ -59,6 +59,8 @@ export default function SubmitProblemPage() {
     }
   }, []);
 
+  
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div ref={formRef} className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">

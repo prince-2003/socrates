@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button"
 import { gsap } from 'gsap';
+import Header from '@/components/header';
 
 export default function HomePage() {
   const linksRef = useRef<HTMLUListElement>(null); 
@@ -19,8 +20,9 @@ export default function HomePage() {
     }
   }, []);
 
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+  return (<>
+    <Header />
+    <div className="min-h-screen w-[96vw] m-2 rounded-xl bg-black  flex flex-col items-center justify-center">
       <h1  id="heading" className=" text-4xl font-bold text-gray-800 mb-8 opacity-0">Welcome to Socratic Solver</h1>
 
       <ul
@@ -51,6 +53,6 @@ export default function HomePage() {
           </Link>
         </li>
       </ul>
-    </div>
+    </div></>
   );
 }

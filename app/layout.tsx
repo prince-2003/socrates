@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/header";
 
-
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -28,16 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200`}
       >
-        <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow">{children}</main>
-      
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        © 2024 Ganttify
-      </footer>
-    </div>
+        <div className="min-h-screen flex flex-col items-center">
+          <main className="flex-grow">{children}</main>
+        </div>
       </body>
     </html>
   );

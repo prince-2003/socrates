@@ -1,14 +1,12 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { auth, db } from '@/lib/firebase';
+import { db } from '@/lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { gsap } from 'gsap';
-import { useRouter } from 'next/router';
-import { onAuthStateChanged } from 'firebase/auth';
 
 // Define the structure for test case objects
 interface TestCase {
@@ -61,17 +59,7 @@ export default function SubmitProblemPage() {
     }
   }, []);
 
-  const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push('/auth'); 
-      }
-    });
-
-    return () => unsubscribe(); 
-  }, [router]);
+  
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">

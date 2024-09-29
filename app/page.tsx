@@ -4,22 +4,11 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button"
 import { gsap } from 'gsap';
-import { onAuthStateChanged } from 'firebase/auth';
-import router from 'next/router';
-import { auth } from '@/lib/firebase';
+
 
 export default function HomePage() {
   const linksRef = useRef<HTMLUListElement>(null); 
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push('/auth'); 
-      }
-    });
-
-    return () => unsubscribe(); 
-  }, [router]);
   
   useEffect(() => {
     gsap.to("#heading", { opacity: 1, y: 20, duration: 1, ease: "power3.out" });

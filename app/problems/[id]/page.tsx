@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { db } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import CodeEditor from '@/components/CodeEditor';
 
 import { Button } from '@/components/ui/button';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/router';
 
 interface TestCase {
   input: string;
@@ -42,6 +44,17 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
     fetchProblem();
   }, [params.id]);
 
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push('/auth'); // Redirect to login if not authenticated
+      }
+    });
+
+    return () => unsubscribe(); // Clean up the listener
+  }, [router]);
   const runTests = () => {
     if (!problem) return;
 

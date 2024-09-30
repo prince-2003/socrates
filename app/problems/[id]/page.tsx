@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import CodeEditor from '@/components/CodeEditor';
+import CodeEditor from '@/components/ui/CodeEditor';
 
 import { Button } from '@/components/ui/button';
 

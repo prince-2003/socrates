@@ -12,10 +12,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(true); // Default to login view
+  const [isLogin, setIsLogin] = useState(true); 
   const formRef = useRef<HTMLDivElement | null>(null);
-
-  // Retrieve the "view" parameter from the URL without using useSearchParams
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const view = params.get('view');

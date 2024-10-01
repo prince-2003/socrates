@@ -22,12 +22,13 @@ export default function Header() {
 
   return (
     <>
-      <nav className=" flex bg-white w-[96vw] m-2 rounded-xl sticky top-0 z-10 py-4 justify-between bg-opacity-75 backdrop-filter backdrop-blur-lg px-4  items-center md:gap-2 lg:gap-8 ">
+      <nav className=" flex bg-white w-[96vw] m-2 rounded-xl sticky top-0 z-10 py-4 justify-between bg-opacity-80 backdrop-filter backdrop-blur-xl px-4  items-center md:gap-2 lg:gap-8 ">
         <div
           
           className="flex justify-center items-center gap-20 text-black"
         >
-          <div className="flex items-center gap-0">
+          <Link href="/" passHref>
+          <div className="flex items-center gap-0" >
             <svg
               className="w-8 md:w-6 md:h-6 lg:w-10 lg:h-10"
               viewBox="0 0 24 24"
@@ -46,6 +47,7 @@ export default function Header() {
               SOCRATES
             </span>
           </div>
+          </Link>
 
           <div className="hidden justify-center items-center gap-6 md:flex">
             {navLinks.slice(0, 4).map((link) => (

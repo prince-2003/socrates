@@ -10,6 +10,7 @@ import { FaPython, FaJava, FaJsSquare, FaSwift } from "react-icons/fa";
 import { TbBrandKotlin } from "react-icons/tb";
 import { SiCplusplus } from "react-icons/si";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { query } from "firebase/firestore";
 
 
 const IconComponent = ({ Icon }: { Icon: IconType }) => {
@@ -35,8 +36,15 @@ const itemPositions = [
 ];
 
 export default function Hero() {
+  const [heroSize, setHeroSize] = useState(0);
   const [moonWidth, setMoonWidth] = useState(0);
   const handleResize = useCallback(() => {
+    const cardElement = document.querySelector(".card");
+    if (cardElement) {
+      cardElement.clientHeight;
+      setHeroSize(cardElement.clientHeight*1.7);
+      
+    }
     setMoonWidth(window.innerWidth);
   }, []);
 
@@ -51,8 +59,8 @@ export default function Hero() {
 
   return (
     <>
-      <div className="h-[55vh] md:h-[85vh]  w-[96vw] m-2 rounded-xl bg-black flex flex-col items-center relative justify-center overflow-hidden">
-        <div className="relative flex flex-col items-center gap-5 md:gap-10 p-4 ">
+      <div id="hero" className={`h-[${heroSize}] md:h-[85vh]  w-[96vw] m-2 rounded-xl bg-black flex flex-col items-center relative justify-center p-10 overflow-hidden`}>
+        <div className="card relative flex flex-col items-center gap-5 md:gap-10 p-4 ">
           <div className="heading flex gap-1 items-center bg-white/20 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl px-4 py-2 text-white  text-[.8rem] md:text-[1rem]  ">
             Discover the all new Socrates
             <span className="bg-white/20 bg-opacity-10 backdrop-filter backdrop-blur-lg  rounded-md px-2   text-white">
@@ -60,10 +68,10 @@ export default function Hero() {
             </span>
           </div>
           <div className="flex flex-col gap-4 items-center">
-            <h1 className="heading text-lg md:text-4xl font-bold text-white text-center leading-5 md:leading-10 z-10">
+            <h1 className="heading text-2xl md:text-4xl font-bold text-white text-center ">
               One Coding Platform For Doing it <br /> All Together
             </h1>
-            <span className="description w-[70%] text-white text-[.8rem] leading-tight  md:text-lg font-light text-center  z-10">
+            <span className="description w-[90%] md:w-[70%] text-white text-[.8rem] leading-tight  md:text-lg font-light text-center ">
               Socrates is a platform where you can learn to code, solve
               problems, and compete with others.
             </span>
@@ -82,8 +90,8 @@ export default function Hero() {
         </div> 
         <img
             alt="laptop"
-            src="/assests/laptop.png"
-            className=" absolute w-[80%] top-[85%]  h-auto"
+            src="/assets/laptop.png"
+            className=" absolute w-[90%] top-[90%] md:top-[85%]  h-auto"
           />
 
         <svg
@@ -125,7 +133,7 @@ export default function Hero() {
           </defs>
         </svg>
 
-        <div className="absolute hidden md:block z-10 inset-0 pointer-events-none">
+        <div className="absolute hidden md:block z-[1] inset-0 pointer-events-none">
           {items.map((item, index) => (
             <div
               key={index}
@@ -142,29 +150,7 @@ export default function Hero() {
           ))}
         </div>
       </div>
-      <ul className="flex flex-col md:flex-row w-full max-w-2xl justify-center items-center gap-6 py-4 z-10">
-        <li className="w-full md:w-auto">
-          <Link href="/auth" passHref>
-            <Button className="w-full hover:scale-105 transition-transform">
-              Login/Sign Up
-            </Button>
-          </Link>
-        </li>
-        <li className="w-full md:w-auto">
-          <Link href="/submit-problems" passHref>
-            <Button className="w-full hover:scale-105 transition-transform">
-              Submit a New Problem
-            </Button>
-          </Link>
-        </li>
-        <li className="w-full md:w-auto">
-          <Link href="/problems" passHref>
-            <Button className="w-full hover:scale-105 transition-transform">
-              Solve Problems
-            </Button>
-          </Link>
-        </li>
-      </ul>
+      
     </>
   );
 }

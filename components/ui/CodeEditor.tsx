@@ -19,7 +19,7 @@ const CodeEditor = ({ initialValue = '', language = 'javascript', onChange }: Co
   };
 
   return (
-    <div style={{ height: '500px', border: '1px solid #ddd', borderRadius: '4px', overflow: 'hidden' }}>
+    <div style={{ height: '500px', width:'50vw', border: '1px solid #ddd', borderRadius: '4px', overflow: 'hidden' }}>
       <Editor
         height="100%"
         language={language}

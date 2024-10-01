@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { gsap } from 'gsap';
@@ -11,9 +11,14 @@ import { gsap } from 'gsap';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
+  const [isLogin, setIsLogin] = useState(true); 
   const formRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
+    setIsLogin(view !== 'signup'); // Default to login unless "signup" is explicitly set
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +41,7 @@ export default function LoginPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <div ref={formRef} className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">{isLogin ? 'Login' : 'Sign Up'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">

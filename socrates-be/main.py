@@ -25,7 +25,7 @@ app.add_middleware(
 async def root():
     return {"message": "Server is running"}
 
-app.include_router(router, prefix="/problems/{id}", tags=["chat"])
+app.include_router(router, prefix="/problems", tags=["chat"])
 
 
 if __name__ == "__main__":

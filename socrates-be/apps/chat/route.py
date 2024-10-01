@@ -1,18 +1,25 @@
 from fastapi import APIRouter, HTTPException
-from schema import ChatRequest
 from .utils import process_chat
+from pydantic import BaseModel
 
 router = APIRouter()
 
-@router.post("/ask")
-async def ask_question(chat_request: ChatRequest):
+# Request and response models
+class ChatRequest(BaseModel):
+    question: str
+    dict_of_vars: dict 
+
+class ChatResponse(BaseModel):
+    text: str
+
+@router.post("/ask", response_model=ChatResponse)
+async def ask_for_hint(chat_request: ChatRequest):
     try:
         
-        response = await process_chat(chat_request)
+        response_text = await process_chat(chat_request)
         
-        # Return the AI response
-        return {"message": "AI Response", "data": response}
+        
+        return ChatResponse(text=response_text)
 
     except Exception as e:
-        # Handle any errors in processing the chat or generating the response
         raise HTTPException(status_code=500, detail=str(e))

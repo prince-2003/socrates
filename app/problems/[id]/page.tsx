@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import CodeEditor from '@/components/CodeEditor';
+import CodeEditor from '@/components/ui/CodeEditor';
 
 import { Button } from '@/components/ui/button';
 import ChatWindow from '@/components/ChatWindow';
@@ -86,20 +86,20 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
   };
 
   const fetchAIHint = async () => {
-    if (isHintEnabled && problem) {
+    if (isHintEnabled && problem && problem.id) {
       try {
-        const response = await axios.post(`${process.env.API_URL}/problems/ask`, {
-          question: problem.question,  
-          dict_of_vars: { code },      
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/problems/ask`, {
+          question: problem.question,
+          dict_of_vars: { code },  
         });
-  
-        setHints(response.data.data);  
+
+        setHints(response.data.hint);  
       } catch (error) {
         console.error('Error fetching AI hint:', error);
         setHints('Failed to fetch hint');
       }
     }
-  };
+};
   
 
   return (

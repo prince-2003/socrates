@@ -1,54 +1,51 @@
-"use client";
-import { useState, useEffect, useCallback } from "react";
-import ButtonPrimary from "./ui/button1";
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Button} from "./ui/button";
+import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import PriceCard from "./ui/pricecard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TeamMemberItem } from "./ui/teamcard"; 
+import { useState, useEffect, useCallback } from "react";
 
-const tiers = [
-  {
-    name: "Free",
-    id: "0",
-    price: "$0",
-    description: `Get all goodies for free, no credit card required.`,
-    features: [
-      `Multi-platform compatibility`,
-      `Real-time notification system`,
-      `Advanced user permissions`,
-    ],
-    cta: `Sign up`,
-  },
-  {
-    name: "Pro",
-    id: "1",
-    price: "$3.99",
-    description: `When you grow, need more power and flexibility.`,
-    features: [
-      `All in the free plan plus`,
-      `Customizable templates`,
-      `Integration with third-party apps`,
-    ],
-    cta: `Get started`,
-  },
-  {
-    name: "Enterprise",
-    id: "2",
-    price: "$9.99",
-    description: `You are a big team, need more control and security.`,
-    features: [
-      `All in the pro plan plus`,
-      `Advanced reporting and analytics`,
-      `Custom domain with SSL`,
-    ],
-    cta: `Contact sales`,
-  },
+
+
+const teamMembers = [
+	{
+		picture: "/assets/team_placeholder.jpg",
+		fullName: "Prince",
+		designation: "UI/UX Designer & Frontend Developer",
+		socialLinks: [
+			{ icon: faInstagram, href: "#" },
+		],
+	},
+	{
+		picture: "/assets/team_placeholder.jpg",
+		fullName: "Mitesh Maity",
+		designation: "Backend Developer",
+		socialLinks: [
+			{ icon: faInstagram, href: "#" },
+
+		],
+	},
+	{
+		picture: "/assets/team_placeholder.jpg",
+		fullName: "Suraj Kumar Jha",
+		designation: "ML Engineer",
+		socialLinks: [
+			{ icon: faInstagram, href: "#" },
+		],
+	},
+	{
+		picture: "/assets/team_placeholder.jpg",
+		fullName: "Rohit ",
+		designation: "Android Developer",
+		socialLinks: [
+			{ icon: faInstagram, href: "#" },
+		],
+	},
 ];
 
 
-
-export default function Pricing() {
+export default function Team(): JSX.Element {
     const [moonWidth, setMoonWidth] = useState(0);
     const handleResize = useCallback(() => {
       setMoonWidth(window.innerWidth);
@@ -62,27 +59,38 @@ export default function Pricing() {
         window.removeEventListener("resize", handleResize);
       };
     }, [handleResize]);
-  return (
-    <section id="pricing" className="w-[96vw] m-2 rounded-xl  p-10 md:p-20 bg-black flex flex-col gap-10 md:gap-20 relative overflow-hidden ">
-      <div className=" items-start">
-        <div className="inline-flex gap-1 items-center bg-white/20 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl px-4 py-2 text-white text-[.8rem] md:text-[1rem] max-w-max">
-          Pricing
+	return (
+		<section id="team" className="ezy__team9 relative py-14 md:py-24 w-[96vw] m-2 rounded-xl  p-10 md:p-20 bg-black text-zinc-900 dark:text-white">
+			<div className="container px-4 mx-auto">
+				<div className="flex justify-start mb-6 md:mb-12">
+					<div className="max-w-lg text-start">
+                    <div className="inline-flex gap-1 items-center bg-white/20 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl px-4 py-2 text-white text-[.8rem] mb-2 md:text-[1rem] max-w-max">
+          Team
           <span className="bg-white/20 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-md px-2 text-white">
             <FontAwesomeIcon icon={faArrowRight} />
           </span>
         </div>
-        <h2 className="text-2xl md:text-4xl font-bold text-white mt-4">
-          Simple and Flexible <br /> Pricing
-        </h2>
-      </div>
+						<h2 className="text-3xl leading-none text-white font-bold md:text-[45px] mb-4">
+							Our Experts Team
+						</h2>
+						<p className="text-gray-500">
+							Meet our team of experts who have a wealth of experience in their
+                            respective fields. We are committed to providing the best services to
+                            our clients.
+						</p>
+					</div>
+				</div>
 
-      <div className="mx-auto justify-center grid-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 z-[1]">
-        {tiers.map((tier) => (
-         <PriceCard key={tier.id} tier={tier} />
-        ))}
-      </div>
-      <svg
-          className="absolute -bottom-0 left-[50%] transform -translate-x-1/2 translate-y-1/2 z-0"
+				<div className="grid grid-cols-4 gap-6 text-center pt-6">
+					{teamMembers.map((member, i) => (
+						<div className="col-span-4 md:col-span-2 lg:col-span-1" key={i}>
+							<TeamMemberItem member={member} />
+						</div>
+					))}
+				</div>
+			</div>
+            <svg
+          className="absolute top-0 left-[50%] transform -translate-x-1/2 -translate-y-1/2 z-0"
           xmlns="http://www.w3.org/2000/svg"
           width={moonWidth}
           height={moonWidth}
@@ -119,7 +127,29 @@ export default function Pricing() {
             </filter>
           </defs>
         </svg>
-
-    </section>
-  );
-}
+            <ul className="flex flex-col md:flex-row w-full max-w-2xl justify-center items-center gap-6 py-4 z-10">
+        <li className="w-full md:w-auto">
+          <Link href="/auth" passHref>
+            <Button className="w-full hover:scale-105 transition-transform">
+              Login/Sign Up
+            </Button>
+          </Link>
+        </li>
+        <li className="w-full md:w-auto">
+          <Link href="/submit-problems" passHref>
+            <Button className="w-full hover:scale-105 transition-transform">
+              Submit a New Problem
+            </Button>
+          </Link>
+        </li>
+        <li className="w-full md:w-auto">
+          <Link href="/problems" passHref>
+            <Button className="w-full hover:scale-105 transition-transform">
+              Solve Problems
+            </Button>
+          </Link>
+        </li>
+      </ul>
+		</section>
+	);
+};

@@ -58,8 +58,8 @@ export default function Hero() {
   }, [handleResize]);
 
   return (
-    <>
-      <div id="hero" className={`h-[${heroSize}] md:h-[85vh]  w-[96vw] m-2 rounded-xl bg-black flex flex-col items-center relative justify-center p-10 overflow-hidden`}>
+    
+      <section id="hero" className={`h-[${heroSize}] md:h-[85vh]  w-[96vw] m-2 rounded-xl bg-black flex flex-col items-center relative justify-center p-10 overflow-hidden`}>
         <div className="card relative flex flex-col items-center gap-5 md:gap-10 p-4 ">
           <div className="heading flex gap-1 items-center bg-white/20 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl px-4 py-2 text-white  text-[.8rem] md:text-[1rem]  ">
             Discover the all new Socrates
@@ -149,8 +149,8 @@ export default function Hero() {
             </div>
           ))}
         </div>
-      </div>
+      </section>
       
-    </>
+    
   );
 }

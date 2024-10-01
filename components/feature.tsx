@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+
 import { useRef, useState, useEffect } from "react";
 import { TbBoxMultiple } from "react-icons/tb";
 import { SiGooglegemini } from "react-icons/si";
@@ -7,6 +6,7 @@ import { FiRefreshCw } from "react-icons/fi";
 import { FaLaptopCode } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import FeatureCard from "./ui/featurecard";
 
 const features = [
   {
@@ -67,7 +67,7 @@ export default function Feature() {
   }, [features]);
 
   return (
-    <div
+    <section
       id="features"
       className="w-[96vw] m-2 rounded-xl  p-10 md:p-20 bg-gray-100"
     >
@@ -87,31 +87,16 @@ export default function Feature() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 ">
           {features.map((feature, index) => (
-            <div
+            <FeatureCard
               key={index}
-              className="flex flex-col gap-2 md:gap-4 items-center transform transition-transform duration-300 group hover:scale-105 "
-            >
-              <div className="p-2 md:p-4 grayscale bg-gray-100 rounded-lg group-hover:grayscale-0  shadow-lg overflow-hidden">
-                <img src={"/assets/placeholder.png"} className="rounded-lg " />
-              </div>
-              <div
-                ref={(el) => {
-                  cardRefs.current[index] = el;
-                }}
-                className="bg-white flex flex-col group-hover:transition-shadow group-hover:shadow-lg justify-center rounded-lg p-4"
-                style={{ minHeight: maxHeight }}
-              >
-                <h3 className="text-xl md:text-2xl font-bold">
-                  {feature.title}
-                </h3>
-                <p className="text-sm font-light text-start">
-                  {feature.shortDescription}
-                </p>
-              </div>
-            </div>
+                title={feature.title}
+                shortDescription={feature.shortDescription}
+              index={index}
+              maxHeight={maxHeight}
+              cardRefs={cardRefs}   />
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -5,7 +5,7 @@ import { SiGooglegemini } from "react-icons/si";
 import { FiRefreshCw } from "react-icons/fi";
 import { FaLaptopCode } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faBox } from "@fortawesome/free-solid-svg-icons";
 import FeatureCard from "./ui/featurecard";
 
 const features = [
@@ -74,10 +74,10 @@ export default function Feature() {
       <div className="flex flex-col justify-center gap-10 md:gap-20">
         <div className="text-2xl md:text-4xl flex flex-col gap-2 font-bold text-start">
           <div className="inline-flex gap-1 items-center bg-black/5 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl px-4 py-2 text-black text-[.8rem] md:text-[1rem] max-w-max">
-            Features
+            
             <span className="bg-black/5 bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-md px-2 text-black">
-              <FontAwesomeIcon icon={faArrowRight} />
-            </span>
+              <FontAwesomeIcon icon={faBox} />
+            </span>Features
           </div>
           <h2>Everything Your Need to Learn to Code</h2>
           <p className="text-sm font-light">

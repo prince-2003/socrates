@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,13 +11,9 @@ import { TbBrandKotlin } from "react-icons/tb";
 import { SiCplusplus } from "react-icons/si";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const smSize = 8;
-const mdSize = 30;
 
 const IconComponent = ({ Icon }: { Icon: IconType }) => {
-  const sizeClass = window.innerWidth >= 768 ? mdSize : smSize;
-
-  return <Icon color="white" size={sizeClass} />;
+  return <Icon color="white" size={30} />;
 };
 
 const items = [

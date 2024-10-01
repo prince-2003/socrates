@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";

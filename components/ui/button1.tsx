@@ -1,15 +1,16 @@
 interface ButtonPrimaryProps {
   innerHtml: string;
   bgColor?: 'black' | 'white' | 'transparent';
+  className?: string;
 }
 
-function ButtonPrimary({ innerHtml, bgColor = 'transparent' }: ButtonPrimaryProps) {
+function ButtonPrimary({ innerHtml, className, bgColor = 'transparent' }: ButtonPrimaryProps) {
   const textColor = bgColor === 'black' ? 'text-white' : 'text-black';
   const borderColor = bgColor === 'black' || bgColor === 'transparent' ? 'border-black' : 'border-white';
 
   return (
     <button
-      className={`flex justify-center items-center ${textColor} ${borderColor} text-[.7rem] md:text-[1rem] px-5 py-2 border rounded-lg transition duration-300 overflow-hidden relative group`}
+      className={`flex ${className} justify-center items-center ${textColor} ${borderColor} text-[.7rem] md:text-[1rem] px-5 py-2 border rounded-lg transition duration-300 overflow-hidden relative group`}
       style={{ backgroundColor: bgColor }}
     >
       <div className="relative overflow-hidden">

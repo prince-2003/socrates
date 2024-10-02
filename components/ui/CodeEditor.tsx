@@ -7,6 +7,7 @@ interface CodeEditorProps {
   initialValue?: string;
   language?: string;
   onChange: (value: string) => void;
+  
 }
 
 const CodeEditor = ({ initialValue = '', language = 'javascript', onChange }: CodeEditorProps) => {

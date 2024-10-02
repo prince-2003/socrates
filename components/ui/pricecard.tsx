@@ -43,9 +43,9 @@ const PriceCard: React.FC<PriceCardProps> = ({ tier }) => {
       </p>
       <Link
         href={
-          tier.cta.toLowerCase() === 'signup'
+          tier.name.toLowerCase() === 'free'
             ? { pathname: '/auth', query: { view: 'signup' } }
-            : '#editor'
+            : ''
         }
         passHref
         aria-describedby={tier.id}

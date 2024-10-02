@@ -1,10 +1,11 @@
 interface ButtonPrimaryProps {
+  type?: 'button' | 'submit' | 'reset';
   innerHtml: string;
   bgColor?: 'black' | 'white' | 'transparent';
   className?: string;
 }
 
-function ButtonPrimary({ innerHtml, className, bgColor = 'transparent' }: ButtonPrimaryProps) {
+function ButtonPrimary({ type = 'button', innerHtml, className, bgColor = 'transparent' }: ButtonPrimaryProps) {
   const textColor = bgColor === 'black' ? 'text-white' : 'text-black';
   const borderColor = bgColor === 'black' || bgColor === 'transparent' ? 'border-black' : 'border-white';
 

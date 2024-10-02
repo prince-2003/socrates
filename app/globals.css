@@ -76,3 +76,25 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+
+.grid-container {
+  display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem; 
+  
+}
+
+.card {
+  transition: transform 0.3s ease;
+}
+
+.grid-container:hover .card {
+  transform: scale(0.95);
+}
+
+.grid-container .card:hover {
+  transform: scale(1.05);
+}

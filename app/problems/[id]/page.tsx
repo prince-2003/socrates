@@ -123,32 +123,16 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
     }
   };
 
-  const handleResizeStart = (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    const startX = e.clientX;
-    const startWidth = editorWidth;
-
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const deltaX = moveEvent.clientX - startX;
-      const newWidth = Math.min(80, Math.max(20, startWidth + (deltaX / window.innerWidth) * 100));
-      setEditorWidth(newWidth);
-    };
-
-    const handleMouseUp = () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-  };
+ 
+  
+    
+    
 
   return (
-    <div className="p-4 flex flex-col md:flex-row justify-center">
+    <div className="p-4 flex flex-col md:flex-row">
       {problem ? (
         <>
-          <div className="flex flex-col md:w-1/2">
+          <div className="flex flex-col basis-1/4 ">
             <h2 className="text-3xl font-bold mb-6">{problem.title}</h2>
             <p className="mb-4">{problem.description}</p>
             <Button onClick={runTests} className="mt-2 bg-black w-36 text-white">
@@ -183,17 +167,16 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
             )}
           </div>
 
-          <div className="flex flex-col justify-center md:w-1/2" style={{ width: `${editorWidth}%` }}>
-            <div className="flex-1">
-              <CodeEditor initialValue={code} language="javascript" onChange={setCode} />
+          
+            <div className="flex-1 basis-3/4">
+              <CodeEditor
+                initialValue={code}
+                language="javascript"
+                onChange={setCode}
+                
+              />
             </div>
-            <div
-              ref={resizerRef}
-              className="resizer bg-gray-400 cursor-col-resize"
-              style={{ width: '5px' }}
-              onMouseDown={handleResizeStart}
-            />
-          </div>
+          
         </>
       ) : (
         <p>Loading...</p>

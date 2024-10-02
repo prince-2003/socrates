@@ -103,32 +103,13 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
     }
   };
 
-  // Resizer logic
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-
-    const startX = e.clientX;
-    const startWidth = editorWidth;
-
-    const onMouseMove = (moveEvent: MouseEvent) => {
-      const newWidth = startWidth + (moveEvent.clientX - startX) / window.innerWidth * 100;
-      setEditorWidth(Math.min(Math.max(newWidth, 20), 80)); 
-    };
-
-    const onMouseUp = () => {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  };
+ 
 
   return (
-    <div className="p-4 flex flex-col md:flex-row">
+    <div className="w-[96vw] m-2 rounded-xl  p-10 md:p-20 bg-gray-100 flex flex-col lg:flex-row gap-10">
       {problem ? (
         <>
-          <div className="flex flex-col md:w-1/2">
+          <div className="flex flex-col basis-1/4 ">
             <h2 className="text-3xl font-bold mb-6">{problem.title}</h2>
             <p className="mb-4">{problem.description}</p>
             <Button onClick={runTests} className="mt-2 bg-black w-36 text-white">Run Tests</Button>
@@ -142,24 +123,15 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
            
           </div>
 
-          <div
-            className="flex flex-col"
-            style={{ width: `${editorWidth}%` }}
-          >
-            <div className="flex-1">
+          
+            <div className="flex-1 basis-3/4">
               <CodeEditor
                 initialValue={code}
                 language="javascript"
                 onChange={setCode}
               />
             </div>
-            <div
-              ref={resizerRef}
-              onMouseDown={handleMouseDown}
-              className="resizer bg-gray-400 cursor-col-resize"
-              style={{ width: '5px' }}
-            />
-          </div>
+          
         </>
       ) : (
         <p>Loading...</p>

@@ -29,7 +29,7 @@ export default function LoginPage() {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Authentication error:", error);
     }

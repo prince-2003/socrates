@@ -1,10 +1,12 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import CodeEditor from '@/components/ui/CodeEditor';
-import { Button } from '@/components/ui/button';
-import ChatWindow from '@/components/ChatWindow';
+"use client";
+import { useState, useEffect } from "react";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import CodeEditor from "@/components/ui/CodeEditor";
+import { Button } from "@/components/ui/button";
+import ChatWindow from "@/components/ChatWindow";
+import { RxCross2 } from "react-icons/rx";
+import { TiTick } from "react-icons/ti";
 
 interface TestCase {
   input: string;
@@ -18,9 +20,13 @@ interface Problem {
   testCases: TestCase[];
 }
 
-export default function ProblemEvaluationPage({ params }: { params: { id: string } }) {
+export default function ProblemEvaluationPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const [problem, setProblem] = useState<Problem | null>(null);
-  const [code, setCode] = useState<string>('');
+  const [code, setCode] = useState<string>("");
   const [result, setResult] = useState<string | null>(null);
   const [isHintEnabled, setIsHintEnabled] = useState<boolean>(false);
   const [editorHeight, setEditorHeight] = useState<number>(400); // Default height for small screens
@@ -30,12 +36,12 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
 
   useEffect(() => {
     const fetchProblem = async () => {
-      const problemRef = doc(db, 'problems', params.id);
+      const problemRef = doc(db, "problems", params.id);
       const problemSnap = await getDoc(problemRef);
       if (problemSnap.exists()) {
         setProblem({ id: problemSnap.id, ...problemSnap.data() } as Problem);
       } else {
-        console.error('No such document!');
+        console.error("No such document!");
       }
     };
     fetchProblem();
@@ -44,13 +50,13 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
   useEffect(() => {
     const handleResize = () => {
       const windowHeight = window.innerHeight;
-      const calculatedHeight = windowHeight - 100; // Adjust as needed
+      const calculatedHeight = windowHeight * 0.8;
       setEditorHeight(calculatedHeight);
     };
 
-    handleResize(); // Set initial height
-    window.addEventListener('resize', handleResize); // Update height on window resize
-    return () => window.removeEventListener('resize', handleResize);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const runTests = () => {
@@ -66,27 +72,31 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
         if (functionNameMatch) {
           functionName = functionNameMatch[1];
         } else {
-          functionName = '__userFunction__';
-          modifiedCode = 'const ' + functionName + ' = ' + code;
+          functionName = "__userFunction__";
+          modifiedCode = "const " + functionName + " = " + code;
         }
 
         const userFunction = new Function(
-          'parsedInput',
-          modifiedCode + '; return ' + functionName + '(parsedInput);'
+          "parsedInput",
+          modifiedCode + "; return " + functionName + "(parsedInput);"
         );
         const userOutput = userFunction(parsedInput);
 
         const normalizedUserOutput = JSON.stringify(userOutput);
-        const normalizedExpectedOutput = JSON.stringify(JSON.parse(tc.expectedOutput));
+        const normalizedExpectedOutput = JSON.stringify(
+          JSON.parse(tc.expectedOutput)
+        );
 
-        return normalizedUserOutput === normalizedExpectedOutput ? 'Passed' : 'Failed';
+        return normalizedUserOutput === normalizedExpectedOutput
+          ? "Passed"
+          : "Failed";
       } catch (err) {
         console.error(err);
-        return 'Error';
+        return "Error";
       }
     });
 
-    setResult(testResults.join(', '));
+    setResult(testResults.join(", "));
   };
 
   const handleToggleHints = () => {
@@ -99,7 +109,7 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ask`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             question: problem.description,
@@ -109,14 +119,14 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
         });
 
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
 
         const data = await response.json();
         setHints(data.data); // Assuming the API returns the hint in `data.data`
       } catch (error) {
-        console.error('Error fetching AI hint:', error);
-        setHints('Failed to fetch hint');
+        console.error("Error fetching AI hint:", error);
+        setHints("Failed to fetch hint");
       }
     }
   };
@@ -131,7 +141,38 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
             <Button onClick={runTests} className="mt-2 bg-black w-36 text-white">
               Submit
             </Button>
-            {result && <p className="mt-2">Test Results: {result}</p>}
+            {result && (
+              <div className="mt-4 flex gap-2 items-center ">
+                Test Results:
+                <div className=" inline-flex text-green-500 gap-1 items-center">
+                <TiTick />
+                {result.split(", ").filter((r) => r === "Passed").length}/{" "}
+                {result.split(", ").length} test cases passed.
+                </div>
+              </div>
+            )}
+            {result && result.length > 0 && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2 text-red-500 flex items-center gap-2 ">
+                  <RxCross2 />
+                  Failed Test Cases:{" "}
+                  {result.split(", ").filter((r) => r != "Passed").length}
+                </h3>
+                <div className="max-h-20 overflow-y-auto p-2 border rounded-lg border-gray-300 shadow-lg">
+                  {result.split(", ").map(
+                    (testResult, index) =>
+                      testResult !== "Passed" && (
+                        <div
+                          key={index}
+                          className="p-4 mb-2 bg-gray-100 rounded-lg border border-red-300"
+                        >
+                          Test Case {index + 1}: {testResult}
+                        </div>
+                      )
+                  )}
+                </div>
+              </div>
+            )}
             <div className="hintToggle mt-4 mx-4">
               <label>
                 <input
@@ -142,24 +183,24 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
                 />
                 Enable Hints
               </label>
-              <ChatWindow code={code} problem={problem} fetchAIHint={fetchAIHint} hints={hints} />
+              {isHintEnabled && (
+                <ChatWindow
+                  code={code}
+                  problem={problem}
+                  fetchAIHint={fetchAIHint}
+                  hints={hints}
+                />
+              )}
             </div>
-            {result && result.length > 0 && (
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold mb-2">Test Case Results:</h3>
-                {result.split(', ').slice(0, 3).map((testResult, index) => (
-                  <div
-                    key={index}
-                    className="p-4 mb-2 bg-gray-100 rounded-lg border border-gray-300"
-                  >
-                    {testResult}
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
+
           <div className="flex-1 basis-3/4">
-            <CodeEditor initialValue={code} language="javascript" onChange={setCode} height={editorHeight} />
+            <CodeEditor
+              initialValue={code}
+              language="javascript"
+              onChange={setCode}
+              height={editorHeight}
+            />
           </div>
         </>
       ) : (

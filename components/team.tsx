@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";

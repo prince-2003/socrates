@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import ReviewCard from "./ui/reviewcard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

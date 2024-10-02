@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Feature from "@/components/feature";
 import Footer from "@/components/footer";
@@ -9,9 +9,16 @@ import {Review} from "@/components/review";
 import Team from "@/components/team";
 
 export default function App() {
+  
+  const NavLinks = [
+    { href: "#features", label: "Features" },
+    { href: "#pricing", label: "Pricings" },
+    { href: "#review", label: "Reviews" },
+    { href: "#team", label: "Team" },
+  ];
   return (
     <>
-      <Header />
+      <Header navLinks={NavLinks} />
       <Hero />
       <Feature />
       <Pricing />

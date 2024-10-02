@@ -13,27 +13,39 @@ interface Problem {
 
 export default function EvaluatePage() {
   const [problems, setProblems] = useState<Problem[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const fetchProblems = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'problems'));
-        const problemData: Problem[] = querySnapshot.docs.map(doc => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            title: data.title || '',
-            description: data.description || '',
-          };
-        });
-        setProblems(problemData);
-      } catch (error) {
-        console.error('Error fetching problems:', error);
-      }
-    };
-
-    fetchProblems();
+    setIsClient(true); 
   }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      const fetchProblems = async () => {
+        try {
+          const querySnapshot = await getDocs(collection(db, 'problems'));
+          const problemData: Problem[] = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              title: data.title || '',
+              description: data.description || '',
+            };
+          });
+          setProblems(problemData);
+        } catch (error) {
+          console.error('Error fetching problems:', error);
+        }
+      };
+
+      fetchProblems();
+    }
+  }, [isClient]);
+
+  if (!isClient) {
+   
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="p-4 w-[70%] mx-auto mt-6">

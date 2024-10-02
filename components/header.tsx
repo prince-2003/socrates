@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
-import { IoClose } from "react-icons/io5";
+import { IoIosClose } from "react-icons/io"
 import Link from "next/link";
 import ButtonPrimary from "./ui/button1";
 import { TiThMenu } from "react-icons/ti";
@@ -89,7 +89,7 @@ export default function Header() {
         }
       >
         <div onClick={handleNav} className="absolute right-4 top-4">
-          <IoClose size="24" />
+          <IoIosClose size="24" />
         </div>
         <div className="text-black font-normal text-base flex flex-col gap-6 py-8 px-4">
           {navLinks.map((link) => (

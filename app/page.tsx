@@ -1,6 +1,7 @@
 "use client";
 
 import Feature from "@/components/feature";
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 import Hero from "@/components/hero";
 import Pricing from "@/components/pricing";
@@ -16,6 +17,7 @@ export default function App() {
       <Pricing />
       <Review />
       <Team />
+      <Footer />
     </>
   );
 }

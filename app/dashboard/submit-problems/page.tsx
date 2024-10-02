@@ -62,8 +62,10 @@ export default function SubmitProblemPage() {
   
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div ref={formRef} className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+
+    <div className="h-[96vh] md:w-[96vw] m-2 rounded-xl flex p-10 md:p-20 bg-gray-100 justify-center">
+      <div ref={formRef} className="bg-white flex flex-col justify-center p-6 rounded-lg shadow-lg min-w-[50vh]">
+
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Submit a New Problem</h1>
 
         <div className="mb-4">

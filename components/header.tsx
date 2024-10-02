@@ -27,7 +27,7 @@ export default function Header({ navLinks, disableLinks }: HeaderProps) {
 
   return (
     <>
-      <nav className="flex bg-white w-[96vw] m-2 rounded-xl sticky top-0 z-10 py-4 justify-between bg-opacity-80 backdrop-filter backdrop-blur-xl px-4 items-center md:gap-2 lg:gap-8">
+      <nav className="flex bg-white w-[96vw] m-2 rounded-xl sticky top-[0.5rem] z-10 py-4 justify-between bg-opacity-80 backdrop-filter backdrop-blur-xl px-4 items-center md:gap-2 lg:gap-8">
         <div className="flex justify-center items-center gap-20 text-black">
           <Link href="/" passHref>
             <div className="flex items-center gap-0">

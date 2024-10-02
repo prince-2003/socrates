@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
+import ButtonPrimary from './ui/button1';
 
 interface Problem {
   title: string;
@@ -11,7 +12,7 @@ interface Problem {
 interface ChatWindowProps {
   code: string;
   problem: Problem;
-  fetchAIHint: (message: string) => void; // Update function signature
+  fetchAIHint: (message: string) => void; 
   hints: string | null;
 }
 
@@ -31,25 +32,25 @@ const ChatWindow = ({ fetchAIHint, hints, problem }: ChatWindowProps) => {
 
 
   return (
-    <div className='mr-14' style={{ marginTop: '20px', padding: '10px', border: '1px solid #ddd', borderRadius: '4px' }}>
-      <h3>Chat Window</h3>
-      <p>Ask the AI for hints or suggestions!</p>
+    <div className='bg-gray-300 bg-opacity-30 backdrop-filter backdrop-blur-xl rounded-lg p-4 text-black/80 mb-4' >
+      <h3 className='text-2xl font-bold'>Chat Window</h3>
+      <p className='text-sm font-light'>Ask the AI for hints or suggestions!</p>
 
       <div style={{ marginBottom: '10px' }}>
         <input
+        className='bg-gray-300 bg-opacity-30 backdrop-filter backdrop-blur-xl w-full rounded-lg my-2 p-4'
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your question here..."
-          style={{ width: '100%', padding: '8px', marginBottom: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
         />
-        <Button onClick={handleFetchHint} style={{ marginTop: '10px' }}>
-          Get Hint from AI
-        </Button>
+        <ButtonPrimary onClick={handleFetchHint} 
+          innerHtml ="Get Hint from AI" bgColor='transparent' >
+        </ButtonPrimary>
       </div>
 
       {response && (
-        <div style={{ marginBottom: '10px', backgroundColor: '#f0f0f0', padding: '10px', borderRadius: '4px' }}>
+        <div className= "max-h-80 overflow-y-auto p-2" >
           <strong>AI Hint:</strong> {response}
         </div>
       )}

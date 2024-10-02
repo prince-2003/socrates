@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import Link from 'next/link';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 interface Problem {
   id: string;
@@ -14,6 +16,7 @@ interface Problem {
 export default function EvaluatePage() {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsClient(true); 
@@ -35,6 +38,8 @@ export default function EvaluatePage() {
           setProblems(problemData);
         } catch (error) {
           console.error('Error fetching problems:', error);
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -43,22 +48,30 @@ export default function EvaluatePage() {
   }, [isClient]);
 
   if (!isClient) {
-   
-    return <div>Loading...</div>;
+    return <div className='w-[96vw] m-2 rounded-xl p-10 md:p-20 bg-gray-100'></div>;
   }
 
   return (
-    <div className="p-4 w-[70%] mx-auto mt-6">
+    <div className="w-[96vw] m-2 rounded-xl p-10 md:p-20 bg-gray-100">
       <h2 className="text-3xl font-bold mb-6">Problems</h2>
       <div className="problem-list mb-6">
-        {problems.map((problem) => (
-          <Link key={problem.id} href={`/dashboard/problems/${problem.id}`} passHref>
-            <div className="problem-item p-4 mb-4 bg-white rounded-lg shadow cursor-pointer hover:shadow-l transition-shadow">
-              <h3 className="text-xl font-semibold">{problem.title}</h3>
-              <p>{problem.description}</p>
+        {loading ? (
+          Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="problem-item p-4 mb-4 bg-white rounded-lg shadow">
+              <Skeleton height={30} width={`60%`} />
+              <Skeleton height={20} width={`80%`} />
             </div>
-          </Link>
-        ))}
+          ))
+        ) : (
+          problems.map((problem) => (
+            <Link key={problem.id} href={`/dashboard/problems/${problem.id}`} passHref>
+              <div className="problem-item p-4 mb-4 bg-white rounded-lg shadow cursor-pointer hover:shadow-lg transition-shadow">
+                <h3 className="text-xl font-semibold">{problem.title}</h3>
+                <p>{problem.description}</p>
+              </div>
+            </Link>
+          ))
+        )}
       </div>
     </div>
   );

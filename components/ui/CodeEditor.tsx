@@ -29,7 +29,7 @@ const CodeEditor = ({ initialValue = '', language = 'javascript', onChange }: Co
             <p className="text-center text-sm">Code</p>
           </div>
         </div>
-        <div className="flex-grow"> 
+        <div className="flex-grow min-h-[90vw]"> 
           <Editor
             height="100%"
             language={language}

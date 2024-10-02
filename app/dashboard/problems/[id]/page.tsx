@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import ChatWindow from "@/components/ChatWindow";
 import { RxCross2 } from "react-icons/rx";
 import { TiTick } from "react-icons/ti";
-import React from "react";
+import { Root } from "postcss";
+import RootLayout from "../../layout";
 
 interface TestCase {
   input: string;
@@ -133,6 +134,7 @@ export default function ProblemEvaluationPage({
   };
 
   return (
+    
     <div className="w-[96vw] m-2 rounded-xl p-10 md:p-20 bg-gray-100 flex flex-col lg:flex-row gap-10">
       {problem ? (
         <>
@@ -208,5 +210,6 @@ export default function ProblemEvaluationPage({
         <p>Loading...</p>
       )}
     </div>
+    
   );
 }

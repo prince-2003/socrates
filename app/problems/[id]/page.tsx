@@ -113,7 +113,7 @@ export default function ProblemEvaluationPage({
           },
           body: JSON.stringify({
             question: problem.description,
-            dict_of_vars: { code },
+            dict_of_vars: {code},
             prompt: message,
           }),
         });

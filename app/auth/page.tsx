@@ -44,7 +44,7 @@ export default function LoginPage() {
   return (
     <>
       <Header disableLinks={true} />
-      <section className="w-[96vw]  m-2 rounded-xl  p-10 md:p-20 bg-gray-100">
+      <section className="w-[96vw] h-[85vh]  m-2 rounded-xl  p-10 md:p-20 bg-gray-100">
         <div className="grid grid-cols-12 gap-6 lg:gap-16 h-full">
           <div className="col-span-12 lg:col-span-5">
             <div

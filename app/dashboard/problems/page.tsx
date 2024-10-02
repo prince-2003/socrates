@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import Link from 'next/link';
+
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+
 
 interface Problem {
   id: string;
@@ -17,6 +19,7 @@ export default function EvaluatePage() {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     setIsClient(true); 
@@ -38,8 +41,10 @@ export default function EvaluatePage() {
           setProblems(problemData);
         } catch (error) {
           console.error('Error fetching problems:', error);
+
         } finally {
           setLoading(false);
+
         }
       };
 
@@ -76,3 +81,4 @@ export default function EvaluatePage() {
     </div>
   );
 }
+

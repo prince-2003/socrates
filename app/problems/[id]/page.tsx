@@ -1,10 +1,10 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import CodeEditor from '@/components/ui/CodeEditor';
 import { Button } from '@/components/ui/button';
+import ChatWindow from '@/components/ChatWindow';
 
 interface TestCase {
   input: string;
@@ -24,6 +24,7 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
   const [result, setResult] = useState<string | null>(null);
   const [isHintEnabled, setIsHintEnabled] = useState<boolean>(false);
   const [editorHeight, setEditorHeight] = useState<number>(400); // Default height for small screens
+  const [hints, setHints] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -40,17 +41,13 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setEditorHeight(500);
-         // Full height for large screens
-      } else {
-        setEditorHeight(400); // 400px height for smaller screens
-      }
+      const windowHeight = window.innerHeight;
+      const calculatedHeight = windowHeight - 100; // Adjust as needed
+      setEditorHeight(calculatedHeight);
     };
 
     handleResize(); // Set initial height
     window.addEventListener('resize', handleResize); // Update height on window resize
-
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -94,6 +91,30 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
     setIsHintEnabled((prev) => !prev);
   };
 
+  const fetchAIHint = async () => {
+    if (isHintEnabled && problem) {
+      try {
+        const response = await fetch('/api/ai-hint', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code, problem }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setHints(data.hint);
+      } catch (error) {
+        console.error('Error fetching AI hint:', error);
+        setHints('Failed to fetch hint');
+      }
+    }
+  };
+
   return (
     <div className="w-[96vw] m-2 rounded-xl p-10 md:p-20 bg-gray-100 flex flex-col lg:flex-row gap-10">
       {problem ? (
@@ -107,12 +128,30 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
             {result && <p className="mt-2">Test Results: {result}</p>}
             <div className="hintToggle mt-4 mx-4">
               <label>
-                <input type="checkbox" checked={isHintEnabled} onChange={handleToggleHints} className="mr-5" />
+                <input
+                  type="checkbox"
+                  checked={isHintEnabled}
+                  onChange={handleToggleHints}
+                  className="mr-5"
+                />
                 Enable Hints
               </label>
+              <ChatWindow code={code} problem={problem} fetchAIHint={fetchAIHint} hints={hints} />
             </div>
+            {result && result.length > 0 && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2">Test Case Results:</h3>
+                {result.split(', ').slice(0, 3).map((testResult, index) => (
+                  <div
+                    key={index}
+                    className="p-4 mb-2 bg-gray-100 rounded-lg border border-gray-300"
+                  >
+                    {testResult}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-
           <div className="flex-1 basis-3/4">
             <CodeEditor initialValue={code} language="javascript" onChange={setCode} height={editorHeight} />
           </div>

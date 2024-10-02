@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import ChatWindow from "@/components/ChatWindow";
 import { RxCross2 } from "react-icons/rx";
 import { TiTick } from "react-icons/ti";
-import { Root } from "postcss";
-import RootLayout from "../../layout";
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 
 interface TestCase {
   input: string;
@@ -34,7 +36,9 @@ export default function ProblemEvaluationPage({
   const [editorHeight, setEditorHeight] = useState<number>(400); // Default height for small screens
   const [hints, setHints] = useState<string | null>(null);
 
-  
+  const [loading, setLoading] = useState<boolean>(true);
+
+
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -45,6 +49,9 @@ export default function ProblemEvaluationPage({
       } else {
         console.error("No such document!");
       }
+
+      setLoading(false);
+
     };
     fetchProblem();
   }, [params.id]);
@@ -118,14 +125,18 @@ export default function ProblemEvaluationPage({
             dict_of_vars: {code},
             prompt: message,
           }),
-        });
+          
 
+        });
+        
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
 
         const data = await response.json();
-        setHints(data.data); // Assuming the API returns the hint in `data.data`
+
+        setHints(data.data); 
+
       } catch (error) {
         console.error("Error fetching AI hint:", error);
         setHints("Failed to fetch hint");
@@ -134,13 +145,28 @@ export default function ProblemEvaluationPage({
   };
 
   return (
-    
+
     <div className="w-[96vw] m-2 rounded-xl p-10 md:p-20 bg-gray-100 flex flex-col lg:flex-row gap-10">
-      {problem ? (
+      {loading ? (
+        <>
+          <div className="card flex flex-col basis-1/4">
+            <Skeleton height={40} width={`60%`} />
+            <Skeleton height={20} width={`80%`} />
+            <Skeleton height={20} width={`80%`} />
+            <Skeleton height={20} width={`80%`} />
+            <Skeleton height={40} width={`40%`} />
+          </div>
+          <div className="flex-1 basis-3/4">
+            <Skeleton height={editorHeight} />
+          </div>
+        </>
+      ) : problem ? (
+
         <>
           <div className="card flex flex-col basis-1/4">
             <h2 className="text-3xl font-bold mb-6">{problem.title}</h2>
             <p className="mb-4">{problem.description}</p>
+
             <Button onClick={runTests} className="mt-2 bg-black w-36 text-white">
               Submit
             </Button>
@@ -148,9 +174,11 @@ export default function ProblemEvaluationPage({
               <div className="mt-4 flex gap-2 items-center ">
                 Test Results:
                 <div className=" inline-flex text-green-500 gap-1 items-center">
-                <TiTick />
-                {result.split(", ").filter((r) => r === "Passed").length}/{" "}
-                {result.split(", ").length} test cases passed.
+
+                  <TiTick />
+                  {result.split(", ").filter((r) => r === "Passed").length}/{" "}
+                  {result.split(", ").length} test cases passed.
+
                 </div>
               </div>
             )}
@@ -207,9 +235,12 @@ export default function ProblemEvaluationPage({
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+
+        <div className="flex justify-center items-center w-full h-full">
+          <Skeleton height={40} width={`60%`} />
+        </div>
       )}
     </div>
-    
   );
 }
+

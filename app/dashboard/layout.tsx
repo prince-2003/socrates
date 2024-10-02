@@ -6,7 +6,7 @@ export default function DashboardLayout({
 }>) {
   return (
     <div
-      className={`w-full flex justify-start flex-col-reverse md:flex-row   antialiased bg-gray-400`}
+      className={`w-full flex justify-start flex-col md:flex-row   antialiased bg-gray-400`}
     >
       <Header />
       {children}

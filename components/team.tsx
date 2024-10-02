@@ -1,6 +1,4 @@
 'use client';
-import Link from "next/link";
-import { Button } from "./ui/button";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -122,29 +120,7 @@ export default function Team(): JSX.Element {
           </filter>
         </defs>
       </svg>
-      <ul className="flex flex-col md:flex-row w-full max-w-2xl justify-center items-center gap-6 py-4 z-10">
-        <li className="w-full md:w-auto">
-          <Link href="/auth" passHref>
-            <Button className="w-full hover:scale-105 transition-transform">
-              Login/Sign Up
-            </Button>
-          </Link>
-        </li>
-        <li className="w-full md:w-auto">
-          <Link href="/submit-problems" passHref>
-            <Button className="w-full hover:scale-105 transition-transform">
-              Submit a New Problem
-            </Button>
-          </Link>
-        </li>
-        <li className="w-full md:w-auto">
-          <Link href="/problems" passHref>
-            <Button className="w-full hover:scale-105 transition-transform">
-              Solve Problems
-            </Button>
-          </Link>
-        </li>
-      </ul>
+      
     </section>
   );
 }

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import CodeEditor from '@/components/ui/CodeEditor';
-
 import { Button } from '@/components/ui/button';
 
 interface TestCase {
@@ -24,10 +23,7 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
   const [code, setCode] = useState<string>('');
   const [result, setResult] = useState<string | null>(null);
   const [isHintEnabled, setIsHintEnabled] = useState<boolean>(false);
-  const [hints, setHints] = useState<string | null>(null);
-  
-  const [editorWidth, setEditorWidth] = useState<number>(50); // percentage of the window
-  const resizerRef = useRef<HTMLDivElement | null>(null);
+  const [editorHeight, setEditorHeight] = useState<number>(400); // Default height for small screens
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -42,10 +38,26 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
     fetchProblem();
   }, [params.id]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setEditorHeight(500);
+         // Full height for large screens
+      } else {
+        setEditorHeight(400); // 400px height for smaller screens
+      }
+    };
+
+    handleResize(); // Set initial height
+    window.addEventListener('resize', handleResize); // Update height on window resize
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const runTests = () => {
     if (!problem) return;
 
-    const testResults = problem.testCases.map(tc => {
+    const testResults = problem.testCases.map((tc) => {
       try {
         const parsedInput = JSON.parse(tc.input);
         let functionName = null;
@@ -59,7 +71,10 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
           modifiedCode = 'const ' + functionName + ' = ' + code;
         }
 
-        const userFunction = new Function('parsedInput', modifiedCode + '; return ' + functionName + '(parsedInput);');
+        const userFunction = new Function(
+          'parsedInput',
+          modifiedCode + '; return ' + functionName + '(parsedInput);'
+        );
         const userOutput = userFunction(parsedInput);
 
         const normalizedUserOutput = JSON.stringify(userOutput);
@@ -76,62 +91,31 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
   };
 
   const handleToggleHints = () => {
-    setIsHintEnabled(prev => !prev);
+    setIsHintEnabled((prev) => !prev);
   };
-
-  const fetchAIHint = async () => {
-    if (isHintEnabled && problem) {
-      try {
-        const response = await fetch('/api/ai-hint', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ code, problem }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        setHints(data.hint);
-      } catch (error) {
-        console.error('Error fetching AI hint:', error);
-        setHints('Failed to fetch hint');
-      }
-    }
-  };
-
- 
 
   return (
-    <div className="w-[96vw] m-2 rounded-xl  p-10 md:p-20 bg-gray-100 flex flex-col lg:flex-row gap-10">
+    <div className="w-[96vw] m-2 rounded-xl p-10 md:p-20 bg-gray-100 flex flex-col lg:flex-row gap-10">
       {problem ? (
         <>
-          <div className="flex flex-col basis-1/4 ">
+          <div className="card flex flex-col basis-1/4">
             <h2 className="text-3xl font-bold mb-6">{problem.title}</h2>
             <p className="mb-4">{problem.description}</p>
-            <Button onClick={runTests} className="mt-2 bg-black w-36 text-white">Run Tests</Button>
+            <Button onClick={runTests} className="mt-2 bg-black w-36 text-white">
+              Run Tests
+            </Button>
             {result && <p className="mt-2">Test Results: {result}</p>}
             <div className="hintToggle mt-4 mx-4">
               <label>
-                <input type="checkbox" checked={isHintEnabled} onChange={handleToggleHints} className='mr-5' />
+                <input type="checkbox" checked={isHintEnabled} onChange={handleToggleHints} className="mr-5" />
                 Enable Hints
               </label>
             </div>
-           
           </div>
 
-          
-            <div className="flex-1 basis-3/4">
-              <CodeEditor
-                initialValue={code}
-                language="javascript"
-                onChange={setCode}
-              />
-            </div>
-          
+          <div className="flex-1 basis-3/4">
+            <CodeEditor initialValue={code} language="javascript" onChange={setCode} height={editorHeight} />
+          </div>
         </>
       ) : (
         <p>Loading...</p>

@@ -16,19 +16,19 @@ interface ChatWindowProps {
 }
 
 const ChatWindow = ({ fetchAIHint, hints, problem }: ChatWindowProps) => {
-  const [message, setMessage] = useState<string>('');
-  const [response, setResponse] = useState<string | null>(null);
 
+  const [response, setResponse] = useState<string | null>(null);
+  const [message, setMessage] = useState<string>('');
+  const handleFetchHint = () => {
+    fetchAIHint(message);
+  }
   useEffect(() => {
     if (hints) {
       setResponse(hints);
     }
   }, [hints]);
 
-  const handleFetchHint = () => {
-    fetchAIHint(message); // Pass the message to the function
-    setMessage(''); // Clear input field after submission
-  };
+
 
   return (
     <div className='mr-14' style={{ marginTop: '20px', padding: '10px', border: '1px solid #ddd', borderRadius: '4px' }}>

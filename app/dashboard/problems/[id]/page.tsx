@@ -34,6 +34,8 @@ export default function ProblemEvaluationPage({
   const [editorHeight, setEditorHeight] = useState<number>(400); // Default height for small screens
   const [hints, setHints] = useState<string | null>(null);
 
+  
+
   useEffect(() => {
     const fetchProblem = async () => {
       const problemRef = doc(db, "problems", params.id);
@@ -103,15 +105,19 @@ export default function ProblemEvaluationPage({
     setIsHintEnabled((prev) => !prev);
   };
 
-  const fetchAIHint = async () => {
+  const fetchAIHint = async (message: string) => {
     if (isHintEnabled && problem) {
       try {
-        const response = await fetch("/api/ai-hint", {
-          method: "POST",
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ask`, {
+          method: 'POST',
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ code, problem }),
+          body: JSON.stringify({
+            question: problem.description,
+            dict_of_vars: { code },
+            prompt: message,
+          }),
         });
 
         if (!response.ok) {
@@ -119,7 +125,7 @@ export default function ProblemEvaluationPage({
         }
 
         const data = await response.json();
-        setHints(data.hint);
+        setHints(data.data); // Assuming the API returns the hint in `data.data`
       } catch (error) {
         console.error("Error fetching AI hint:", error);
         setHints("Failed to fetch hint");
@@ -135,11 +141,8 @@ export default function ProblemEvaluationPage({
           <div className="card flex flex-col basis-1/4">
             <h2 className="text-3xl font-bold mb-6">{problem.title}</h2>
             <p className="mb-4">{problem.description}</p>
-            <Button
-              onClick={runTests}
-              className="mt-2 bg-black w-36 text-white"
-            >
-              Run Tests
+            <Button onClick={runTests} className="mt-2 bg-black w-36 text-white">
+              Submit
             </Button>
             {result && (
               <div className="mt-4 flex gap-2 items-center ">

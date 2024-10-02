@@ -90,7 +90,7 @@ export default function ProblemEvaluationPage({ params }: { params: { id: string
 
     setResult(testResults);
 
-    // Check if all test cases passed
+    
     if (testResults.every((r) => r.includes('Passed'))) {
       toast({
         title: "All Test Cases Passed!",

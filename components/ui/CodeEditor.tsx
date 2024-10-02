@@ -21,9 +21,9 @@ const CodeEditor = ({ initialValue = '', language = 'javascript', onChange, heig
 
 
   return (
-    <div className="flex flex-col h-full mx-auto rounded-lg">
+    <div className="flex flex-col h-full mx-auto rounded-lg shadow-xl">
       <div className="w-full h-full  subpixel-antialiased rounded bg-transparent flex flex-col">
-        <div className="flex items-center h-6 rounded-t bg-gray-100 border-b border-gray-500 text-center text-black">
+        <div className="flex items-center h-6 rounded-t-[.5rem] bg-gray-200 border-b border-gray-500 text-center text-black">
           <div className="flex ml-2 items-center border-red-900 bg-red-500 shadow-inner rounded-full w-3 h-3"></div>
           <div className="ml-2 border-yellow-900 bg-yellow-500 shadow-inner rounded-full w-3 h-3"></div>
           <div className="ml-2 border-green-900 bg-green-500 shadow-inner rounded-full w-3 h-3"></div>

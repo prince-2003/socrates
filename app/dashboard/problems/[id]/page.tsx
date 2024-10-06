@@ -111,7 +111,7 @@ export default function ProblemEvaluationPage({
   const fetchAIHint = async (message: string) => {
     if (isHintEnabled && problem) {
       try {
-        const response = await fetch(`https://socrates-be.onrender.com/api/ask`, {
+        const response = await fetch(`http://localhost:8900/api/ask`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
@@ -191,13 +191,13 @@ export default function ProblemEvaluationPage({
                 </div>
               </div>
             )}
-            <div className="hintToggle mt-4 ">
+            <div className="hintToggle mt-4  ">
               <label>
                 <input
                   type="checkbox"
                   checked={isHintEnabled}
                   onChange={handleToggleHints}
-                  className="mr-5"
+                  className="mr-5 "
                 />
                 Enable Hints
               </label>

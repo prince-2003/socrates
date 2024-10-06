@@ -16,7 +16,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8900/session_logout', {
+      const response = await fetch('https://socrates-be.onrender.com/session_logout', {
         method: 'POST',
         credentials: 'include', 
       });

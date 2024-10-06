@@ -27,7 +27,6 @@ export default function LoginPage() {
       if (isLogin) {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const idToken = await userCredential.user.getIdToken();
-        console.log("idToken", idToken);
         await fetch('https://socrates-be.onrender.com/session_login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

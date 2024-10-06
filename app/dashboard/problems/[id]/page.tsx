@@ -111,7 +111,7 @@ export default function ProblemEvaluationPage({
   const fetchAIHint = async (message: string) => {
     if (isHintEnabled && problem) {
       try {
-        const response = await fetch(`http://localhost:8900/api/ask`, {
+        const response = await fetch(`https://socrates-be.onrender.com/api/ask`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",

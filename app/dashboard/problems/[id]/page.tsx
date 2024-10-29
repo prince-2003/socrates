@@ -191,13 +191,13 @@ export default function ProblemEvaluationPage({
                 </div>
               </div>
             )}
-            <div className="hintToggle mt-4 ">
+            <div className="hintToggle mt-4  ">
               <label>
                 <input
                   type="checkbox"
                   checked={isHintEnabled}
                   onChange={handleToggleHints}
-                  className="mr-5"
+                  className="mr-5 "
                 />
                 Enable Hints
               </label>

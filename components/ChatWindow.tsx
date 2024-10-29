@@ -38,7 +38,7 @@ const ChatWindow = ({ fetchAIHint, hints, problem }: ChatWindowProps) => {
 
       <div style={{ marginBottom: '10px' }}>
         <input
-        className='bg-gray-300 bg-opacity-30 backdrop-filter backdrop-blur-xl w-full rounded-lg my-2 p-4'
+        className='bg-gray-500 bg-opacity-70 backdrop-filter backdrop-blur-xl w-full rounded-lg my-2 p-4'
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}

@@ -6,6 +6,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import Link from 'next/link';
 
 import Skeleton from 'react-loading-skeleton';
+import { getAuth } from 'firebase/auth';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 
@@ -16,6 +17,10 @@ interface Problem {
 }
 
 export default function EvaluatePage() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  
   const [problems, setProblems] = useState<Problem[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(true);

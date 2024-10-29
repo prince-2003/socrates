@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { db } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+
+import { collection, addDoc, getFirestore } from 'firebase/firestore';
+import { app } from '@/lib/firebase'; // Adjust the import according to your firebase configuration file
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -21,7 +22,9 @@ export default function SubmitProblemPage() {
   const [error, setError] = useState<string>('');
   
   const formRef = useRef<HTMLDivElement | null>(null);
-
+  const db = getFirestore(app);
+  
+  
   const handleSubmit = async () => {
     try {
       

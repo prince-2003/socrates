@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { app } from "@/lib/firebase";
+import { getFirestore } from "firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import CodeEditor from "@/components/ui/CodeEditor";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { TiTick } from "react-icons/ti";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Draggable from "react-draggable";
+import { useRouter } from "next/navigation";
 
 interface TestCase {
   input: string;
@@ -36,17 +38,33 @@ export default function ProblemEvaluationPage({
   const [hints, setHints] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isLgScreen, setIsLgScreen] = useState<boolean>(false);
+   const router = useRouter();
 
   useEffect(() => {
+   
     const fetchProblem = async () => {
-      const problemRef = doc(db, "problems", params.id);
-      const problemSnap = await getDoc(problemRef);
-      if (problemSnap.exists()) {
-        setProblem({ id: problemSnap.id, ...problemSnap.data() } as Problem);
-      } else {
-        console.error("No such document!");
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/fetch-data?id=${params.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", 
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        console.log("data:", data.documents[0]);
+        setProblem({ id: data.id, ...data.documents[0] });
+      } catch (error) {
+        router.push("/auth");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchProblem();
   }, [params.id]);
@@ -111,7 +129,7 @@ export default function ProblemEvaluationPage({
   const fetchAIHint = async (message: string) => {
     if (isHintEnabled && problem) {
       try {
-        const response = await fetch(`https://socrates-be.onrender.com/api/ask`, {
+        const response = await fetch(`https://socrates-be-msw1.onrender.com/api/ask`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",

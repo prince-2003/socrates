@@ -19,7 +19,7 @@ interface Problem {
 }
 
 export default function EvaluatePage() {
-  const db = getFirestore(app); 
+  
   
   const [problems, setProblems] = useState<Problem[]>([]);
   const [isClient, setIsClient] = useState(false);

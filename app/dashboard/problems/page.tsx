@@ -19,7 +19,7 @@ interface Problem {
 }
 
 export default function EvaluatePage() {
-  
+  const db = getFirestore(app); 
   
   const [problems, setProblems] = useState<Problem[]>([]);
   const [isClient, setIsClient] = useState(false);
@@ -37,7 +37,7 @@ export default function EvaluatePage() {
     if (isClient) {
       const fetchProblems = async () => {
         try {
-          const response = await fetch(`https://socrates-be-msw1.onrender.com/fetch-data`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/fetch-data`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

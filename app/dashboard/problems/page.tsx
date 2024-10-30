@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { db } from '@/lib/firebase';
+import { app } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import { getAuth } from 'firebase/auth';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { getFirestore } from "firebase/firestore";
+import axios from 'axios';
 
 
 interface Problem {
@@ -17,9 +19,7 @@ interface Problem {
 }
 
 export default function EvaluatePage() {
-  const auth = getAuth();
-  const user = auth.currentUser;
-
+  const db = getFirestore(app); 
   
   const [problems, setProblems] = useState<Problem[]>([]);
   const [isClient, setIsClient] = useState(false);
@@ -29,27 +29,31 @@ export default function EvaluatePage() {
   useEffect(() => {
     setIsClient(true); 
   }, []);
+  const router = useRouter();
 
-  useEffect(() => {
+  
+
+ useEffect(() => {
     if (isClient) {
       const fetchProblems = async () => {
         try {
-          const querySnapshot = await getDocs(collection(db, 'problems'));
-          const problemData: Problem[] = querySnapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              title: data.title || '',
-              description: data.description || '',
-            };
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/fetch-data`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include', 
           });
-          setProblems(problemData);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          console.log('data:', data.documents);
+          setProblems(data.documents);
         } catch (error) {
-          console.error('Error fetching problems:', error);
-
+          router.push("/auth");
         } finally {
           setLoading(false);
-
         }
       };
 

@@ -16,13 +16,12 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('https://socrates-be.onrender.com/session_logout', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessionLogout`, {
         method: 'POST',
-        credentials: 'include', 
+        credentials: 'include',
       });
 
       if (response.ok) {
-       
         router.push('/auth');
       } else {
         const errorData = await response.json();
@@ -57,8 +56,8 @@ export default function Header() {
       <button onClick={handleLogout} className="relative group">
         <MdLogout className="w-6 h-6" />
         <div className="absolute whitespace-nowrap -bottom-1 left-[130%] mb-1 hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1">
-                Logout
-              </div>
+          Logout
+        </div>
       </button>
     </nav>
   );

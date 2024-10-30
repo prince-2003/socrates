@@ -10,12 +10,32 @@ import {
 import { gsap } from "gsap";
 import Form from "@/components/ui/form";
 import Header from "@/components/header";
+import axios from "axios";
 
 export default function LoginPage() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const formRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/check_session`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+        if (!response.data.error) {
+          router.push("/dashboard");
+        }
+      } catch (error) {
+        console.error("Error verifying session:", error);
+      }
+    };
+    checkSession();
+  }, [router]);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const view = params.get("view");
@@ -27,12 +47,15 @@ export default function LoginPage() {
       if (isLogin) {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const idToken = await userCredential.user.getIdToken();
-        await fetch('https://socrates-be.onrender.com/session_login', {
+        console.log("idToken:", idToken);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessionLogin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ idToken }),
-          credentials: 'include', 
+          body: JSON.stringify({ idToken}),
+          credentials: 'include',
         });
+
+        console.log("response:", response);
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }

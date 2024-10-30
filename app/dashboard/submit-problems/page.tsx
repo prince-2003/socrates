@@ -1,14 +1,12 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { db } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { gsap } from 'gsap';
 
-// Define the structure for test case objects
+
 interface TestCase {
   input: string;
   expectedOutput: string;
@@ -21,7 +19,8 @@ export default function SubmitProblemPage() {
   const [error, setError] = useState<string>('');
   
   const formRef = useRef<HTMLDivElement | null>(null);
-
+  
+  
   const handleSubmit = async () => {
     try {
       
@@ -33,11 +32,21 @@ export default function SubmitProblemPage() {
       }
 
       
-      await addDoc(collection(db, 'problems'), {
+      const input= {
         title,
         description,
         testCases: parsedTestCases,
-      });
+      };
+
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-data`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(input),
+        credentials: 'include',
+      }
+      );
 
       
       setTitle('');

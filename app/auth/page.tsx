@@ -21,7 +21,7 @@ export default function LoginPage() {
     const checkSession = async () => {
       try {
         const response = await axios.post(
-          `https://socrates-be-msw1.onrender.com/check_session`,
+          `${process.env.NEXT_PUBLIC_API_URL}/check_session`,
           {},
           {
             withCredentials: true,
@@ -48,7 +48,7 @@ export default function LoginPage() {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const idToken = await userCredential.user.getIdToken();
         console.log("idToken:", idToken);
-        const response = await fetch(`https://socrates-be-msw1.onrender.com/sessionLogin`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessionLogin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ idToken}),

@@ -4,14 +4,15 @@ import { getAuth } from "firebase/auth";
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDTZre75b4R7jnuTjNhbJPThP2asqv0msw",
-    authDomain: "socratic-solver.firebaseapp.com",
-    projectId: "socratic-solver",
-    storageBucket: "socratic-solver.appspot.com",
-    messagingSenderId: "287495215295",
-    appId: "1:287495215295:web:e80d1d217c2b35b406ce0a",
-    measurementId: "G-QHKTKWSLSF"
-  };
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+};
+
+
 export const app = initializeApp(firebaseConfig);
 
 

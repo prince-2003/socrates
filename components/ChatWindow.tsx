@@ -17,6 +17,7 @@ interface ChatWindowProps {
 }
 
 const ChatWindow = ({ fetchAIHint, hints, problem }: ChatWindowProps) => {
+  
 
   const [response, setResponse] = useState<string | null>(null);
   const [message, setMessage] = useState<string>('');

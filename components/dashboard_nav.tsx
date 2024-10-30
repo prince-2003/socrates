@@ -45,7 +45,7 @@ export default function Header() {
           return (
             <Link key={index} href={link.href} className="relative group">
               <IconComponent className="w-6 h-6" />
-              <div className="absolute whitespace-nowrap -bottom-1 left-[130%] mb-1 hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1">
+              <div className="absolute whitespace-nowrap  -bottom-1 left-[130%] mb-1 hidden md:group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1">
                 {link.label}
               </div>
             </Link>
